@@ -11,6 +11,17 @@ def display_stats(df, label=""):
     print(df.isnull().sum())
     print()
 
+def parse_rename_mapping(arg_str):
+    try:
+        mappings = {}
+        for pair in arg_str.split(','):
+            old, new = pair.split('=')
+            mappings[old.strip()] = new.strip()
+        return mappings
+    except Exception:
+        print("⚠️ Invalid format for --rename. Use: Old1=New1,Old2=New2")
+        return {}
+
 
 def main():
     parser = argparse.ArgumentParser(description="🧹 CSV Data Cleaner Tool")
@@ -41,6 +52,16 @@ def main():
     if args.fillna is not None:
         df = df.fillna(args.fillna)
         print(f"🩹 Filled missing values with: {args.fillna}")
+
+    if args.rename:
+        rename_map = parse_rename_mapping(args.rename)
+        missing_cols = [col for col in rename_map if col not in df.columns]
+        if missing_cols:
+            print(f"⚠️ Cannot rename. These columns do not exist: {missing_cols}")
+        else:
+            df = df.rename(columns=rename_map)
+            print(f"✏️ Renamed columns: {rename_map}")
+
 
     display_stats(df, "(after cleaning)")
 

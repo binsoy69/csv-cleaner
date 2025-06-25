@@ -1,0 +1,9 @@
+Name,Email,Age,Country
+Alice,alice@example.com,25,USA
+Bob,bob@example.com,30,Canada
+Charlie,charlie@example.com,35,UK
+Alice,alice@example.com,25,USA
+David,,28,USA
+Eve,eve@example.com,,Philippines
+Frank,frank@example.com,40,
+,,,
